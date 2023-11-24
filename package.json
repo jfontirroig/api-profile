@@ -1,7 +1,7 @@
 {
     "name": "API-PROFILE",
     "version": "1.0.0",
-    "description": "A Service API PROFILE for Paradigma Crosscheck",
+    "description": "A Service API PROFILE for Stacks STX",
     "private": true,
     "main": "lib/index.js",
     "dependencies": {
@@ -52,9 +52,9 @@
         "api-profile": "lib/index.js"
     },
     "scripts": {
-        "start": "API_PROFILE_CONFIG=/home/paradigma/api-profile/config-api_profile.json sudo npm run build && node lib/index.js sudo npm run start",
-        "start:regtest": "API_PROFILE_DEVELOP=/home/paradigma/api-profile/config-develop.json API_PROFILE_REGTEST=true sudo npm run start",
-        "build": "API_PROFILE_CONFIG=/home/paradigma/api-profile/config-api_profile.json babel src -d lib",
+        "start": "API_PROFILE_CONFIG=/home/api-profile/config-api_profile.json sudo npm run build && node lib/index.js sudo npm run start",
+        "start:regtest": "API_PROFILE_DEVELOP=/home/api-profile/config-develop.json API_PROFILE_REGTEST=true sudo npm run start",
+        "build": "API_PROFILE_CONFIG=/home/api-profile/config-api_profile.json babel src -d lib",
         "flow": "flow",
         "lint": "eslint src",
         "lint:fix": "eslint src --fix",
@@ -73,12 +73,11 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/paradigma-cl/api-profile.git"
+        "url": "https://github.com/jfontirroig/api-profile"
     },
     "author": {
-        "name": "Paradigma Global",
-        "email": "info@paradigma.global",
-        "url": "https://paradigma.global"
+        "name": "José Fontirroig",
+        "email": "jfontirroig@gmail.com"
     },
     "license": "MIT",
     "contributors": [
@@ -87,9 +86,9 @@
         }
     ],
     "bugs": {
-        "url": "https://github.com/paradigma-cl/api-profile/issues"
+        "url": "https://github.com/jfontirroig/api-profile/issues"
     },
-    "homepage": "https://github.com/paradigma-cl/api-profile#readme",
+    "homepage": "https://github.com/jfontirroig/api-profile#readme",
     "commitlint": {
         "extends": [
             "@commitlint/config-conventional"
