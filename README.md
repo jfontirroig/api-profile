@@ -1,65 +1,96 @@
-# Install
+# API-PROFILE SERVICE WITH NODEJS, EXPRESSJS FOR STACKS (STX)
 
-To install from source:
-
-```bash
-git clone https://github.com/paradigma-cl/api-profile.git
-npm i
-```
-
-# Starting up the registrar
-
-You can run the service in place from its source directory, and you can specify your config file via the `API_PROFILE_CONFIG` environment parameter.
-
-```bash
-API_PROFILE_CONFIG=/home/paradigma/api-profile/config-api_profile.json sudo npm run build && node lib/index.js sudo npm run start
-```
-
-### Monitoring via Prometheus
-
-You can configure a monitoring service for the subdomain registrar via adding a `prometheus` field to the configuration file:
+## Instalar PM2
 
 ```
-"prometheus": { "start": true, "port": 5941 }
+sudo apt-get update
+sudo npm install -g pm2
 ```
 
-Or by setting the environment variable `API_PROFILE_PROMETHEUS_PORT`
-
-# Running with Docker
-
-First copy the config file into a data directory and modify it to suit your needs:
-
-```bash
-mkdir -p data
-cp config-sample.json data/config.json
-vi config.json
+```
+sudo pm2 list
+sudo pm2 stop app_name_or_id    (según name de sudo pm2 list)
+sudo pm2 start app_name_or_id   (según name de sudo pm2 list)
+sudo pm2 monit
 ```
 
-Once that is done you can spin up the instance using docker-compose. The file will build the image as well:
+## Instalar Let's Encrypt
 
-```bash
-docker-compose up -d
+```
+sudo apt-get update
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d anydomain
 ```
 
-If you would like to run w/o compose you can do the same with docker:
+### Renovación
 
-```bash
-# First build the image
-docker build . --tag fad_na_at
-
-# Then run it with the proper volumes mounted
-docker run -d -v data:/root/ -e API_PROFILE_CONFIG=/root/config.json -p 3060:3060 api_profile
+```
+sudo systemctl stop nginx
+sudo certbot renew --force-renew
 ```
 
-Root stores the sqlite database that the service uses to login and requisition. To test connectivity for this setup run the following curl command:
+## Instalar Nginx
 
-Run this command in your terminal :
-```bash
-curl http://localhost:3060/index | jq
 ```
-You should receive the following output :
+sudo apt-get update
+sudo apt-get install nginx
+sudo ufw allow 'Nginx Full'
 ```
-{
-  "status": true
+
+### sudo nano /etc/nginx/sites-available/default
+(Default server configuration)
+
+```
+server {
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name anydomain; # managed by Certbot
+	
+	location /api-profile {
+	      proxy_pass https://anydomain:3000;
+	      proxy_http_version 1.1;
+	      proxy_set_header Upgrade $http_upgrade;
+	      proxy_set_header Connection 'upgrade';
+	      proxy_set_header Host $host;
+	      proxy_cache_bypass $http_upgrade;
+	}
+	
+	listen [::]:443 ssl ipv6only=on; # managed by Certbot
+	listen 443 ssl; # managed by Certbot
+	ssl_certificate /etc/letsencrypt/live/anydomain/fullchain.pem; # managed by Certbot
+	ssl_certificate_key /etc/letsencrypt/live/anydomain/privkey.pem; # managed by Certbot
+	include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
+```
+
+```
+server {
+       if ($host = anydomain) {
+          return 301 https://$host$request_uri;
+       } # managed by Certbot
+
+       listen 80 ;
+       listen [::]:80 ;
+       server_name anydomain;
+       return 404; # managed by Certbot
+}
+```
+
+```
+sudo systemctl restart nginx
+sudo systemctl reload nginx
+sudo systemctl stop nginx
+sudo systemctl start nginx
+```
+
+## INSTALAR APP
+
+```
+cd /home/api-profile/
+sudo npm run build
+sudo pm2 delete api-profile
+sudo API_CONFIG=/home/api-profile/config-api_profile.json pm2 start node lib/index.js --name "api-profile"
+sudo pm2 save
+sudo systemctl restart nginx
 ```
