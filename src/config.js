@@ -11,14 +11,12 @@ const configDefaults = {
         json: false
     },
     domainName: 'api-profile.id',
-    dbLocation: '/home/paradigma/api-profile/registrar_db/api_profile.db',
-    port: 3060,
+    dbLocation: '/home/api-profile/registrar_db/api_profile.db',
+    port: 3000,
     prometheus: { start: false, port: 0 },
     minBatchSize: 1,
-    did_web_controller: "https://domains.paradigma.global/api-openid/"
-
+    did_web_controller: "https://ip_server_keycloak/api-openid/"
 }
-
 
 export function getConfig() {
     let config = Object.assign({}, configDefaults)
