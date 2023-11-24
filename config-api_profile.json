@@ -1,7 +1,7 @@
 {
-    "dbLocation": "/home/paradigma/api-profile/registrar_db/api_profile.db",
-    "port": 3060,
-    "did_web_controller": "https://domains.paradigma.global/api-openid/",
+    "dbLocation": "/home/api-profile/registrar_db/api_profile.db",
+    "port": 3000,
+    "did_web_controller": "https://ip_server_keycloak/api-openid/",
     "winstonConsoleTransport": {
         "level": "info",
         "handleExceptions": false,
