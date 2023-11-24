@@ -1,0 +1,13 @@
+{
+    "dbLocation": "/home/paradigma/api-profile/registrar_db/api_profile.db",
+    "port": 3060,
+    "did_web_controller": "https://domains.paradigma.global/api-openid/",
+    "winstonConsoleTransport": {
+        "level": "info",
+        "handleExceptions": false,
+        "timestamp": true,
+        "stringify": true,
+        "colorize": true,
+        "json": false
+    }
+ }

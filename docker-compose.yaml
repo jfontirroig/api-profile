@@ -1,0 +1,11 @@
+version: '3'
+services:
+  api_profile:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./data:/root
+    ports:
+      - "3060:3060"
+    environment:
+      API_PROFILE_CONFIG: "/root/config-api_profile.json"

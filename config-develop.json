@@ -1,0 +1,12 @@
+{
+    "dbLocation": "/home/paradigma/api-profile/registrar_db/api_profile.db",
+    "port": 3060,
+    "winstonConsoleTransport": {
+        "level": "info",
+        "handleExceptions": false,
+        "timestamp": true,
+        "stringify": true,
+        "colorize": true,
+        "json": false
+    }
+}
